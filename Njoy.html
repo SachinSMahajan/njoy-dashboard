@@ -89,11 +89,80 @@
         margin: 10px auto;
       }
     }
+
+     /* Fun animations */
+     @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .container {
+        padding: 15px;
+      }
+      .chart {
+        margin-top: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .container {
+        padding: 10px;
+      }
+      .chart {
+        margin-top: 20px;
+      }
+    }
+
+    /* Funny Text Effect */
+    .fun-text {
+  font-size: 1.5rem;
+  color: #f39c12; /* Orange */
+  font-weight: bold;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  animation: glow 1.5s ease-in-out infinite alternate;
+  margin-top: 10px;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px rgba(243, 156, 18, 0.8), 0 0 20px rgba(243, 156, 18, 0.6); /* Orange */
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(243, 156, 18, 1), 0 0 30px rgba(243, 156, 18, 0.8); /* Orange */
+  }
+}
+
+
+
+    .icon {
+      font-size: 3rem;
+      color: #ff6347;
+      margin: 20px 0;
+    }
+    .icon-container, .fun-text-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Njoy Dashboard</h1>
+    <h1>Njoy</h1>
+    <div class="icon-container">
+      <div class="icon">🎉</div>
+    </div>
+    <div class="fun-text-container">
+      <p class="fun-text">Divided 🤬 by Wings united by Njoy 😍!!!</p>
+    </div>
     <input type="file" id="fileInput">
     <div id="totalContributionsExpenses" class="chart"></div>
     <div id="individualContributions" class="chart"></div>
@@ -268,7 +337,7 @@
     {
         "expenses_date": "09-09-2024",
         "paid_by": "Sachin Mahajan",
-        "expenses_type": "Booked amount",
+        "expenses_type": "Invested",
 	"transaction_type" : "credit",
         "remarks": "Taken out invested amount Radhika Jeweltech",
         "amount": "5952.00"
@@ -276,7 +345,7 @@
     {
         "expenses_date": "19-09-2024",
         "paid_by": "Sachin Mahajan",
-        "expenses_type": "Booked amount",
+        "expenses_type": "Invested",
 	"transaction_type" : "credit",
         "remarks": "SL hit in Ganesh benzo ",
         "amount": "7450.00"
@@ -332,19 +401,21 @@
       };
       reader.readAsText(file);
     });
-
+    function parseDate(dateString) {
+      const [day, month, year] = dateString.split('-');
+      return new Date(`${year}-${month}-${day}`);
+    };
     function renderDashboard(data) {
       // Calculate total expenses based on transaction type
-     
-
       // Total Contributions vs. Total Expenses
       const totalContributions = data.summary.total_contributions;
-      const totalExpenses  =data.summary.total_expenses;
+      const totalExpenses  = data.summary.total_expenses;
+      const currentInvestment  = data.summary.total_investments - data.summary.total_booked_amounts;
       Plotly.newPlot('totalContributionsExpenses', [{
-        x: ['Contributions', 'Expenses','Balance'],
-        y: [totalContributions, totalExpenses,data.summary.net_amount],
+        x: ['Contributions', 'Expenses','Investment','Balance'],
+        y: [totalContributions, totalExpenses,currentInvestment,data.summary.net_amount],
         marker: {
-    color: ['rgba(3, 132, 252,1)','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
+    color: ['rgba(3, 132, 252,1)','red','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
     
   },
         type: 'bar'
@@ -358,6 +429,8 @@
             expensesByCategory[expense.expenses_type] = 0;
           }
           expensesByCategory[expense.expenses_type] += parseFloat(expense.amount);
+        }else{
+          expensesByCategory[expense.expenses_type] -= parseFloat(expense.amount);
         }
       });
       const categoryData = {
@@ -391,7 +464,7 @@
       // Monthly Expense Trends
       const expensesByMonth = {};
       data.expenses.forEach(expense => {
-        const month = new Date(expense.expenses_date).getMonth() + 1;
+        const month = parseDate(expense.expenses_date).getMonth() + 1;
         if (!expensesByMonth[month]) {
           expensesByMonth[month] = 0;
         }
@@ -408,9 +481,10 @@
       // Net Investment Performance
       const totalInvestments = data.summary.total_investments;
       const totalBookedAmounts = data.summary.total_booked_amounts;
+      const currentlyInvestmented  = data.summary.total_investments - data.summary.total_booked_amounts;
       Plotly.newPlot('investmentPerformance', [{
-        x: ['Invested', 'Booked'],
-        y: [totalInvestments, totalBookedAmounts],
+        x: ['Total Invested', 'Booked','Invested'],
+        y: [totalInvestments, totalBookedAmounts,currentlyInvestmented],
         type: 'bar'
       }], { title: 'Net Investment Performance' });
     }
