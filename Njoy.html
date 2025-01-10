@@ -14,9 +14,9 @@
     <h1>Njoy Group Dashboard</h1>
     <input type="file" id="fileInput">
     <div id="totalContributionsExpenses" class="chart"></div>
+    <div id="individualContributions" class="chart"></div>
     <div id="categoryBreakdown" class="chart"></div>
     <div id="monthlyTrends" class="chart"></div>
-    <div id="individualContributions" class="chart"></div>
     <div id="investmentPerformance" class="chart"></div>
   </div>
 
@@ -261,8 +261,12 @@
       Plotly.newPlot('totalContributionsExpenses', [{
         x: ['Contributions', 'Expenses','Balance'],
         y: [totalContributions, totalExpenses,data.summary.net_amount],
+        marker: {
+    color: ['rgba(3, 132, 252,1)','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
+    
+  },
         type: 'bar'
-      }], { title: 'Total Contributions vs. Total Expenses' });
+      }], { title: 'Total Contributions vs. Total Expenses' ,barcornerradius: 15});
 
       // Category-wise Breakdown of Expenses
       const expensesByCategory = {};
