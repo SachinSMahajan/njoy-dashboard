@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Njoy Group Dashboard</title>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
   <style>
     body { font-family: Arial, sans-serif; background: linear-gradient(145deg, #e0f7fa, #ffffff); display: flex; flex-direction: column; align-items: center; margin: 0; min-height: 100vh; overflow-x: hidden; padding: 10px; } .container { width: 100%; max-width: 1200px; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box; } h1 { text-align: center; color: #333; } input[type="file"] { display: block; margin: 20px auto; } .chart { margin-top: 30px; background: rgba(255, 255, 255, 0.5); border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 100%; max-width: 100%; padding: 0; }
   </style>
@@ -29,6 +29,13 @@
         "type": "Deposit",
         "remarks": "",
         "amount": "4000.00"
+    },
+    {
+        "txn_date": "",
+        "investor": "Sagar Purandare",
+        "type": "",
+        "remarks": "Not paid",
+        "amount": "-4000.00"
     },
     {
         "txn_date": "28-01-2024",
@@ -72,13 +79,7 @@
         "remarks": "",
         "amount": "4000.00"
     },
-    {
-        "txn_date": "",
-        "investor": "Sagar Purandare",
-        "type": "",
-        "remarks": "Not paid",
-        "amount": ""
-    },
+    
     {
         "txn_date": "18-10-2024",
         "investor": "Rushi Pawar",
@@ -280,6 +281,27 @@
       };
       Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' });
 
+ // Individual Contributions
+ const individualContributions = {};
+      data.contributions.forEach(contribution => {
+        if (!individualContributions[contribution.investor]) {
+          individualContributions[contribution.investor] = 0;
+        }
+        individualContributions[contribution.investor] += parseFloat(contribution.amount);
+      });
+      const contributionsData = {
+        x: Object.keys(individualContributions),
+        y: Object.values(individualContributions),
+        marker: {
+    color: Object.values(individualContributions).map(amount =>
+      amount <= 0 ? 'red' : 'rgba(3, 132, 252,1)' // Assign gray for 0, blue for others
+    )
+  },
+        type: 'bar'
+      };
+      Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, });
+
+
       // Monthly Expense Trends
       const expensesByMonth = {};
       data.expenses.forEach(expense => {
@@ -296,21 +318,7 @@
       };
       Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends' });
 
-      // Individual Contributions
-      const individualContributions = {};
-      data.contributions.forEach(contribution => {
-        if (!individualContributions[contribution.investor]) {
-          individualContributions[contribution.investor] = 0;
-        }
-        individualContributions[contribution.investor] += parseFloat(contribution.amount);
-      });
-      const contributionsData = {
-        x: Object.keys(individualContributions),
-        y: Object.values(individualContributions),
-        type: 'bar'
-      };
-      Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions' });
-
+     
       // Net Investment Performance
       const totalInvestments = data.summary.total_investments;
       const totalBookedAmounts = data.summary.total_booked_amounts;
