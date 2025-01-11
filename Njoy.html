@@ -166,11 +166,58 @@
       align-items: center;
       width: 100%;
     }
+
+    @keyframes dance {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-10px) rotate(-10deg);
+  }
+  40% {
+    transform: translateY(10px) rotate(10deg);
+  }
+  60% {
+    transform: translateY(-5px) rotate(-5deg);
+  }
+  80% {
+    transform: translateY(5px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.dancing-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 3rem;
+  color: #ff4081;
+  text-align: center;
+  animation: dance 1.5s infinite ease-in-out;
+  display: inline-block;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.dancing-title:hover {
+  animation: dance 0.7s infinite ease-in-out; /* Speed up on hover */
+}
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Optional background */
+  margin: 0;
+}
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Njoy</h1>
+    <div class="center-container">
+      <h1 class="dancing-title">Njoy</h1>
+    </div>
     <div class="icon-container">
       <div class="icon">🎉</div>
     </div>
@@ -501,7 +548,7 @@
         width: null, // Allow Plotly to adapt to container
         height: 300,
         xaxis: {
-          tickangle: 10, // Rotate labels for better visibility (optional)
+          tickangle: 60, // Rotate labels for better visibility (optional)
         }
     },config);
 
