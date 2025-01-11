@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Njoy Dashboard</title>
+  <title>Njoy</title>
   <script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
   <style>
    body {
@@ -47,7 +47,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%; /* Make the chart fit the screen width */
     overflow-x: auto; /* Allow horizontal scrolling if content overflows */
-    padding: 0;
+    padding: 20px 0 0 0;
     position: relative;
 }
     .plotly {
@@ -68,6 +68,7 @@
         margin-top: 20px;
         padding: 5px; 
         width: 100%;
+        height: auto;
         overflow-x: scroll; 
       }
 
@@ -127,7 +128,12 @@
         margin-top: 20px;
       }
     }
-
+    @media (min-width: 1024px) {
+    .chart {
+        margin-top: 40px;
+        padding-top: 30px;
+    }
+}
     /* Funny Text Effect */
     .fun-text {
   font-size: 1.5rem;
@@ -443,7 +449,7 @@
         barcornerradius: 15, 
         autosize: true, // Automatically adjust size
         responsive: true, // Enable responsiveness
-        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        margin: { l: 80, r: 30, t: 30, b: 50 }, // Set margins
         width: null, // Allow Plotly to adapt to container
         height: 300, },config);
 
@@ -491,11 +497,11 @@
         type: 'bar'
       };
       Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, responsive: true, // Enable responsiveness
-        margin: { l: 50, r: 30, t: 30, b: 150 }, // Set margins
+        margin: { l: 50, r: 30, t: 30, b: 100 }, // Set margins
         width: null, // Allow Plotly to adapt to container
         height: 300,
         xaxis: {
-          tickangle: -45, // Rotate labels for better visibility (optional)
+          tickangle: 30, // Rotate labels for better visibility (optional)
         }
     },config);
 
