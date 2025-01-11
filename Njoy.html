@@ -491,9 +491,13 @@
         type: 'bar'
       };
       Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, responsive: true, // Enable responsiveness
-        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        margin: { l: 50, r: 30, t: 30, b: 150 }, // Set margins
         width: null, // Allow Plotly to adapt to container
-        height: 300,},config);
+        height: 300,
+        xaxis: {
+          tickangle: -45, // Rotate labels for better visibility (optional)
+        }
+    },config);
 
 
       // Monthly Expense Trends
@@ -525,7 +529,11 @@
         x: ['Total Invested', 'Booked','Invested'],
         y: [totalInvestments, totalBookedAmounts,currentlyInvestmented],
         type: 'bar'
-      }], { title: 'Net Investment Performance' },layout,config);
+      }], { title: 'Net Investment Performance' ,autosize: true, // Automatically adjust size
+        responsive: true, // Enable responsiveness
+        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        width: null, // Allow Plotly to adapt to container
+        height: 300 },config);
     }
   </script>
 </body>
