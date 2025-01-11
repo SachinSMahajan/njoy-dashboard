@@ -169,7 +169,8 @@
       <div class="icon">🎉</div>
     </div>
     <div class="fun-text-container">
-       <p class="fun-text">Divided by BC 🤬 united by Njoy 😍!!!</p>
+       <p class="fun-text">Divided by BC 🤬 <br>
+         United by Njoy 😍!!!</p>
     </div>
     <input type="file" id="fileInput">
     <div id="totalContributionsExpenses" class="chart"></div>
@@ -438,7 +439,9 @@
           color: ['rgba(3, 132, 252,1)','red','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
         },
         type: 'bar'
-      }], { title: 'Total Contributions vs. Total Expenses' ,barcornerradius: 15, autosize: true, // Automatically adjust size
+      }], { title: 'Total Contributions vs. Total Expenses' ,
+        barcornerradius: 15, 
+        autosize: true, // Automatically adjust size
         responsive: true, // Enable responsiveness
         margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
         width: null, // Allow Plotly to adapt to container
@@ -461,7 +464,13 @@
         values: Object.values(expensesByCategory),
         type: 'pie'
       };
-      Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' },layout,config);
+      Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' ,
+      autosize: true, // Automatically adjust size
+        responsive: true, // Enable responsiveness
+        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        width: null, // Allow Plotly to adapt to container
+        height: 300
+      },config);
 
  // Individual Contributions
  const individualContributions = {};
@@ -501,7 +510,11 @@
         y: Object.values(expensesByMonth),
         type: 'scatter'
       };
-      Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends' },config);
+      Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends',autosize: true, // Automatically adjust size
+        responsive: true, // Enable responsiveness
+        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        width: null, // Allow Plotly to adapt to container
+        height: 300 },config);
 
      
       // Net Investment Performance
@@ -512,7 +525,7 @@
         x: ['Total Invested', 'Booked','Invested'],
         y: [totalInvestments, totalBookedAmounts,currentlyInvestmented],
         type: 'bar'
-      }], { title: 'Net Investment Performance' },config);
+      }], { title: 'Net Investment Performance' },layout,config);
     }
   </script>
 </body>
