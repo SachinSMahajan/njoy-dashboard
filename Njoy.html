@@ -501,7 +501,7 @@
         y: Object.values(expensesByMonth),
         type: 'scatter'
       };
-      Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends' },layout,config);
+      Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends' },config);
 
      
       // Net Investment Performance
@@ -512,7 +512,7 @@
         x: ['Total Invested', 'Booked','Invested'],
         y: [totalInvestments, totalBookedAmounts,currentlyInvestmented],
         type: 'bar'
-      }], { title: 'Net Investment Performance' },layout,config);
+      }], { title: 'Net Investment Performance' },config);
     }
   </script>
 </body>
