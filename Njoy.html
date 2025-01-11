@@ -48,9 +48,12 @@
       width: 100%;
       max-width: 100%;
       padding: 0;
+      position: relative;
     }
-
-    /* Responsive Styles */
+    .plotly {
+        overflow: visible !important;
+    }
+      /* Responsive Styles */
     @media (max-width: 768px) {
       h1 {
         font-size: 1.5rem;
@@ -63,6 +66,9 @@
 
       .chart {
         margin-top: 20px;
+        padding: 5px; 
+        width: 100%;
+        overflow-x: scroll; 
       }
 
       input[type="file"] {
@@ -406,6 +412,16 @@
       return new Date(`${year}-${month}-${day}`);
     };
     function renderDashboard(data) {
+
+      const layout = {
+        margin: { t: 30, b: 30, l: 30, r: 30 }, // Adjust the chart's margin
+        autosize: true,
+        responsive: true,
+    };
+    const config = {
+    responsive: true,
+    displayModeBar: window.innerWidth > 768, // Hide toolbar on smaller devices
+};
       // Calculate total expenses based on transaction type
       // Total Contributions vs. Total Expenses
       const totalContributions = data.summary.total_contributions;
@@ -415,11 +431,10 @@
         x: ['Contributions', 'Expenses','Investment','Balance'],
         y: [totalContributions, totalExpenses,currentInvestment,data.summary.net_amount],
         marker: {
-    color: ['rgba(3, 132, 252,1)','red','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
-    
-  },
+          color: ['rgba(3, 132, 252,1)','red','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
+        },
         type: 'bar'
-      }], { title: 'Total Contributions vs. Total Expenses' ,barcornerradius: 15});
+      }], { title: 'Total Contributions vs. Total Expenses' ,barcornerradius: 15},layout,config);
 
       // Category-wise Breakdown of Expenses
       const expensesByCategory = {};
