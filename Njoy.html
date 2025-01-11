@@ -40,16 +40,16 @@
     }
 
     .chart {
-      margin-top: 30px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 100%;
-      padding: 0;
-      position: relative;
-    }
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Make the chart fit the screen width */
+    overflow-x: auto; /* Allow horizontal scrolling if content overflows */
+    padding: 0;
+    position: relative;
+}
     .plotly {
         overflow: visible !important;
     }
@@ -80,6 +80,8 @@
     @media (max-width: 480px) {
       .chart {
         margin-top: 15px;
+        overflow-x: scroll; /* Allow horizontal scrolling */
+        max-width: 100%;
       }
 
       .container {
@@ -167,7 +169,7 @@
       <div class="icon">🎉</div>
     </div>
     <div class="fun-text-container">
-      <p class="fun-text">Divided by BC 🤬 united by Njoy 😍!!!</p>
+       <p class="fun-text">Divided by BC 🤬 united by Njoy 😍!!!</p>
     </div>
     <input type="file" id="fileInput">
     <div id="totalContributionsExpenses" class="chart"></div>
@@ -414,9 +416,11 @@
     function renderDashboard(data) {
 
       const layout = {
-        margin: { t: 60, b: 30, l: 30, r: 30 }, // Adjust the chart's margin
-        autosize: true,
-        responsive: true,
+        autosize: true, // Automatically adjust size
+        responsive: true, // Enable responsiveness
+        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        width: null, // Allow Plotly to adapt to container
+        height: 300, // Optional fixed height for consistent display
     };
     const config = {
     responsive: true,
@@ -453,7 +457,7 @@
         values: Object.values(expensesByCategory),
         type: 'pie'
       };
-      Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' });
+      Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' },layout,config);
 
  // Individual Contributions
  const individualContributions = {};
