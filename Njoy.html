@@ -414,7 +414,7 @@
     function renderDashboard(data) {
 
       const layout = {
-        margin: { t: 30, b: 30, l: 30, r: 30 }, // Adjust the chart's margin
+        margin: { t: 60, b: 30, l: 30, r: 30 }, // Adjust the chart's margin
         autosize: true,
         responsive: true,
     };
@@ -453,7 +453,7 @@
         values: Object.values(expensesByCategory),
         type: 'pie'
       };
-      Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' });
+      Plotly.newPlot('categoryBreakdown', [categoryData], { title: 'Category-wise Breakdown of Expenses' },layout,config);
 
  // Individual Contributions
  const individualContributions = {};
@@ -473,7 +473,7 @@
   },
         type: 'bar'
       };
-      Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, });
+      Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, },layout,config);
 
 
       // Monthly Expense Trends
@@ -490,7 +490,7 @@
         y: Object.values(expensesByMonth),
         type: 'scatter'
       };
-      Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends' });
+      Plotly.newPlot('monthlyTrends', [monthlyTrendsData], { title: 'Monthly Expense Trends' },layout,config);
 
      
       // Net Investment Performance
@@ -501,7 +501,7 @@
         x: ['Total Invested', 'Booked','Invested'],
         y: [totalInvestments, totalBookedAmounts,currentlyInvestmented],
         type: 'bar'
-      }], { title: 'Net Investment Performance' });
+      }], { title: 'Net Investment Performance' },layout,config);
     }
   </script>
 </body>
