@@ -438,7 +438,11 @@
           color: ['rgba(3, 132, 252,1)','red','rgba(3, 132, 252,1)', data.summary.net_amount <= 0 ?'red': 'rgba(3, 132, 252,1)'], // Assign gray for 0, blue for others
         },
         type: 'bar'
-      }], { title: 'Total Contributions vs. Total Expenses' ,barcornerradius: 15},layout,config);
+      }], { title: 'Total Contributions vs. Total Expenses' ,barcornerradius: 15, autosize: true, // Automatically adjust size
+        responsive: true, // Enable responsiveness
+        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        width: null, // Allow Plotly to adapt to container
+        height: 300, },config);
 
       // Category-wise Breakdown of Expenses
       const expensesByCategory = {};
@@ -477,7 +481,10 @@
   },
         type: 'bar'
       };
-      Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, },layout,config);
+      Plotly.newPlot('individualContributions', [contributionsData], { title: 'Individual Contributions',barcornerradius: 15, responsive: true, // Enable responsiveness
+        margin: { l: 50, r: 30, t: 30, b: 50 }, // Set margins
+        width: null, // Allow Plotly to adapt to container
+        height: 300,},config);
 
 
       // Monthly Expense Trends
